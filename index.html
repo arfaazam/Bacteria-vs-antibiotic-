@@ -9,20 +9,37 @@
             margin: 0;
             overflow: hidden;
             background-color: black;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
         }
         .bacteria {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-image: url('clippedbacteria.png'); /* Use your bacteria image */
+            width: 60px;
+            height: 60px;
+            background-image: url('clippedbacteria.png'); /* Your bacteria image */
             background-size: cover;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .bacteria:active {
+            transform: scale(0.8);
+        }
+        .capsule {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-image: url('capsule.png'); /* Your capsule image */
+            background-size: cover;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
         }
     </style>
 </head>
 <body>
 
-<audio id="popSound" src="pop.mp3"></audio> <!-- Add this for sound -->
+<!-- Sound Effect -->
+<audio id="popSound" src="pop.mp3"></audio>
 
 <script>
     function createBacteria() {
@@ -30,26 +47,44 @@
         bacteria.className = "bacteria";
 
         // Random position
-        let x = Math.random() * (window.innerWidth - 50);
-        let y = Math.random() * (window.innerHeight - 50);
-        bacteria.style.left = x + "px";
-        bacteria.style.top = y + "px";
+        let x = Math.random() * (window.innerWidth - 60);
+        let y = Math.random() * (window.innerHeight - 60);
+        bacteria.style.left = `${x}px`;
+        bacteria.style.top = `${y}px`;
 
-        // Remove bacteria on click and play sound
-        bacteria.addEventListener("click", function() {
-            document.getElementById("popSound").play(); // Play pop sound
+        // When bacteria is clicked
+        bacteria.addEventListener("click", function(event) {
+            // Play pop sound
+            document.getElementById("popSound").play();
+
+            // Create capsule at the bacteria's position
+            let capsule = document.createElement("div");
+            capsule.className = "capsule";
+            capsule.style.left = `${event.clientX - 40}px`; // Center capsule
+            capsule.style.top = `${event.clientY - 40}px`;
+            document.body.appendChild(capsule);
+
+            // Make capsule fade out and remove it
+            setTimeout(() => {
+                capsule.style.opacity = "0";
+                setTimeout(() => capsule.remove(), 500);
+            }, 300);
+
+            // Remove bacteria
             this.remove();
         });
 
         document.body.appendChild(bacteria);
 
-        // Remove bacteria after 5 seconds if not clicked
+        // Remove bacteria after 5 seconds if not popped
         setTimeout(() => {
-            bacteria.remove();
+            if (document.body.contains(bacteria)) {
+                bacteria.remove();
+            }
         }, 5000);
     }
 
-    // Generate bacteria every second
+    // Generate bacteria every 1 second
     setInterval(createBacteria, 1000);
 </script>
 
