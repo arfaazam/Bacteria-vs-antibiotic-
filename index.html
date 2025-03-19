@@ -17,7 +17,7 @@
             position: absolute;
             width: 60px;
             height: 60px;
-            background-image: url('clippedbacteria.png'); /* Your bacteria image */
+            background-image: url('clippedbacteria.png'); /* Add bacteria image */
             background-size: cover;
             cursor: pointer;
             transition: transform 0.2s;
@@ -29,10 +29,10 @@
             position: absolute;
             width: 80px;
             height: 80px;
-            background-image: url('capsule.png'); /* Your capsule image */
+            background-image: url('capsule.png'); /* Add capsule image */
             background-size: cover;
             opacity: 1;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.5s ease-out, transform 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -52,19 +52,25 @@
         bacteria.style.left = `${x}px`;
         bacteria.style.top = `${y}px`;
 
+        // Append bacteria to body
+        document.body.appendChild(bacteria);
+
         // When bacteria is clicked
         bacteria.addEventListener("click", function(event) {
             // Play pop sound
-            document.getElementById("popSound").play();
+            let popSound = document.getElementById("popSound");
+            popSound.currentTime = 0; // Reset sound if played multiple times
+            popSound.play();
 
-            // Create capsule at the bacteria's position
+            // Create capsule at click location
             let capsule = document.createElement("div");
             capsule.className = "capsule";
             capsule.style.left = `${event.clientX - 40}px`; // Center capsule
             capsule.style.top = `${event.clientY - 40}px`;
+
             document.body.appendChild(capsule);
 
-            // Make capsule fade out and remove it
+            // Remove capsule after animation
             setTimeout(() => {
                 capsule.style.opacity = "0";
                 setTimeout(() => capsule.remove(), 500);
@@ -74,8 +80,6 @@
             this.remove();
         });
 
-        document.body.appendChild(bacteria);
-
         // Remove bacteria after 5 seconds if not popped
         setTimeout(() => {
             if (document.body.contains(bacteria)) {
@@ -84,7 +88,7 @@
         }, 5000);
     }
 
-    // Generate bacteria every 1 second
+    // Generate bacteria every second
     setInterval(createBacteria, 1000);
 </script>
 
