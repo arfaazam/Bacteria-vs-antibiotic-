@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacteria Pop Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        .bacteria {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('bacteria.png'); /* Use your bacteria image */
+            background-size: cover;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    function createBacteria() {
+        let bacteria = document.createElement("div");
+        bacteria.className = "bacteria";
+
+        // Random position
+        let x = Math.random() * (window.innerWidth - 50);
+        let y = Math.random() * (window.innerHeight - 50);
+        bacteria.style.left = x + "px";
+        bacteria.style.top = y + "px";
+
+        // Remove bacteria on click
+        bacteria.addEventListener("click", function() {
+            this.remove();
+        });
+
+        document.body.appendChild(bacteria);
+
+        // Remove bacteria after 5 seconds if not clicked
+        setTimeout(() => {
+            bacteria.remove();
+        }, 5000);
+    }
+
+    // Generate bacteria every second
+    setInterval(createBacteria, 1000);
+</script>
+
+</body>
+</html>
