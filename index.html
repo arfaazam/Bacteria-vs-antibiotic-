@@ -22,6 +22,8 @@
 </head>
 <body>
 
+<audio id="popSound" src="pop.mp3"></audio> <!-- Add this for sound -->
+
 <script>
     function createBacteria() {
         let bacteria = document.createElement("div");
@@ -33,8 +35,9 @@
         bacteria.style.left = x + "px";
         bacteria.style.top = y + "px";
 
-        // Remove bacteria on click
+        // Remove bacteria on click and play sound
         bacteria.addEventListener("click", function() {
+            document.getElementById("popSound").play(); // Play pop sound
             this.remove();
         });
 
