@@ -27,8 +27,8 @@
         }
         .capsule {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 70px; /* Slightly bigger than bacteria */
+            height: 70px;
             background-image: url('capsule.png'); /* Add capsule image */
             background-size: cover;
             opacity: 1;
@@ -65,8 +65,8 @@
             // Create capsule at click location
             let capsule = document.createElement("div");
             capsule.className = "capsule";
-            capsule.style.left = `${event.clientX - 40}px`; // Center capsule
-            capsule.style.top = `${event.clientY - 40}px`;
+            capsule.style.left = `${event.clientX - 35}px`; // Center capsule
+            capsule.style.top = `${event.clientY - 35}px`;
 
             document.body.appendChild(capsule);
 
